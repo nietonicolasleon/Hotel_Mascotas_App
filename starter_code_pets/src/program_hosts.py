@@ -48,8 +48,8 @@ def show_commands():
 
 def create_account():
     print(' ****************** REGISTER **************** ')
-    # TODO: Get name & email
-    # TODO: Create account, set as logged in.
+    nombre = input("Ingrese su nombre, por favor: ")
+    email = input("Ingrese su email, por favor: ")
 
     print(" -------- NOT IMPLEMENTED -------- ")
 
