@@ -1,10 +1,13 @@
-class Dueno:
-    fecha_registro = None
-    nombre = None
-    email = None
+import datetime
+import mongoengine as me
+
+class Dueno(me.Document):
+    fecha_registro = me.DateTimeField(default=datetime.datetime.now())
+    nombre = me.StringField(required=True)
+    email = me.StringField(required=True)
     
-    pet_ids = None
-    cucha_ids = None
+    pet_ids = me.ListField()
+    cucha_ids = me.ListField()
 
     meta ={
         'db_alias' : 'core',

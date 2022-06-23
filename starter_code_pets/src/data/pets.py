@@ -1,10 +1,13 @@
-class Pet:
-    fecha_registro = None
-    especie = None
-    raza = None
-    nombre = None
-    tamanio = None
-    peso = None
+import datetime
+import mongoengine as me
+
+class Pet(me.Document):
+    fecha_registro = me.DateTimeField(default=datetime.datetime.now())
+    especie = me.StringField(required = True)
+    raza = me.StringField()
+    nombre = me.StringField(required = True)
+    tamanio = me.FloatField(required = True)
+    peso = me.FloatField(required = True)
 
     meta ={
         'db_alias' : 'core',
