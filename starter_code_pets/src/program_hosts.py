@@ -1,6 +1,8 @@
+from ast import If
 from colorama import Fore
 from infrastructure.switchlang import switch
 import infrastructure.state as state
+import services.data_service as svc
 
 
 def run():
@@ -51,7 +53,13 @@ def create_account():
     nombre = input("Ingrese su nombre, por favor: ")
     email = input("Ingrese su email, por favor: ")
 
-    print(" -------- NOT IMPLEMENTED -------- ")
+    cuenta_vieja = svc.find_account_by_email(email)
+    if cuenta_vieja:
+        error_msg("Error: La cuenta con el email: {email} ya existe.")
+        return
+
+    state.active_account = svc.create_account(nombre, email)
+    success_msg(f"Cuenta creada exitosamente con id: {state.active_account.id}.")
 
 
 def log_into_account():

@@ -1,4 +1,7 @@
-active_account = None
+#Este import tendrá más sentido al hacer merge en la rama principal
+from data.duenos import Dueno
+
+active_account: Dueno = None
 
 
 def reload_account():
