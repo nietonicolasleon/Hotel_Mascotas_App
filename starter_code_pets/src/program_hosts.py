@@ -51,7 +51,7 @@ def show_commands():
 def create_account():
     print(' ****************** REGISTER **************** ')
     nombre = input("Ingrese su nombre, por favor: ")
-    email = input("Ingrese su email, por favor: ")
+    email = input("Ingrese su email, por favor: ").strip().lower()
 
     cuenta_vieja = svc.find_account_by_email(email)
     if cuenta_vieja:
@@ -65,10 +65,15 @@ def create_account():
 def log_into_account():
     print(' ****************** LOGIN **************** ')
 
-    # TODO: Get email
-    # TODO: Find account in DB, set as logged in.
+    email = input("Ingrese su email, por favor: ").strip().lower()
+    cuenta = svc.find_account_by_email(email)
 
-    print(" -------- NOT IMPLEMENTED -------- ")
+    if not cuenta:
+        error_msg(f"No se pudo encontrar la cuenta con el email: {email}.")
+        return
+    
+    state.active_account = cuenta
+    success_msg("Usted entró a su cuenta exitosamente.")
 
 
 def register_cage():
