@@ -78,8 +78,22 @@ def log_into_account():
 
 def register_cage():
     print(' ****************** REGISTER CAGE **************** ')
+    if not state.active_account:
+        error_msg('Debe acceder a una cuenta primero para registrar una cucha.')
+        return
+    
+    metros = input('¿De cuantos metros cuadrados es la cucha? ')
+    if not metros:
+        error_msg('Registro cancelado.')
+        return
+    
+    metros = float(metros)
+    alfombra = input('¿La cucha tiene alfombra? [y, n] ').lower().startswith('y')
+    juguetes = input('¿La cucha tiene juguetes? [y, n] ').lower().startswith('y')
+    nombre = input('Dele un nombre de la cucha: ')
 
-    # TODO: Require an account
+    svc.register_cage()
+
     # TODO: Get info about cage
     # TODO: Save cage to DB.
 
