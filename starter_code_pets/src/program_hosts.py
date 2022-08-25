@@ -126,7 +126,7 @@ def exit_app():
 def get_action():
     text = '> '
     if state.active_account:
-        text = f'{state.active_account.name}> '
+        text = f'{state.active_account.nombre}> '
 
     action = input(Fore.YELLOW + text + Fore.WHITE)
     return action.strip().lower()

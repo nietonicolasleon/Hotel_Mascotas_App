@@ -1,4 +1,4 @@
 import mongoengine
 
 def global_init():
-    mongoengine.register_connection(alias='core', name='hotel_mascotas')
+    mongoengine.connect(db='hotel_mascotas', host='mongodb+srv://MarisaF:trumpe2020@cluster0.zax8qxg.mongodb.net/?retryWrites=true&w=majority', alias='core')
