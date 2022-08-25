@@ -1,5 +1,6 @@
 #Este import tendrá más sentido al hacer merge en la rama principal
 from data.duenos import Dueno
+import services.data_service as svc
 
 active_account: Dueno = None
 
@@ -9,5 +10,4 @@ def reload_account():
     if not active_account:
         return
 
-    # TODO: pull owner account from the database.
-    pass
+    active_account = svc.find_account_by_email(active_account.email)

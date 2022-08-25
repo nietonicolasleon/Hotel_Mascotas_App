@@ -92,16 +92,16 @@ def register_cage():
     juguetes = input('¿La cucha tiene juguetes? [y, n] ').lower().startswith('y')
     nombre = input('Dele un nombre de la cucha: ')
 
-    svc.register_cage()
+    svc.register_cage(
+        state.active_account, nombre, juguetes, alfombra, metros
+    )
 
-    # TODO: Get info about cage
-    # TODO: Save cage to DB.
-
-    print(" -------- NOT IMPLEMENTED -------- ")
+    state.reload_account()
+    success_msg('Se registró una nueva cucha con la id: {cucha.id}.')
 
 
-def list_cages(supress_header=False):
-    if not supress_header:
+def list_cages(suppress_header=False):
+    if not suppress_header:
         print(' ******************     Your cages     **************** ')
 
     # TODO: Require an account
