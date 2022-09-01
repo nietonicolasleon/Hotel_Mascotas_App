@@ -1,5 +1,6 @@
 import datetime
 from typing import List
+import bson
 from data.duenos import Dueno
 from data.cuchas import Cucha
 from data.reservas import Reserva
@@ -71,3 +72,8 @@ def add_pets(account, n, e, r, t, p) -> Pet:
     return mascota
 
 
+def get_pets_for_users(user_id: bson.ObjectId) -> List[Pet]:
+    dueno = Dueno.objects(id = user_id).first()
+    mascotas = Pet.object(id__in = dueno.pet_ids).all()
+
+    return list(mascotas)

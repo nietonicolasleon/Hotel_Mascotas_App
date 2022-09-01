@@ -75,11 +75,21 @@ def add_a_snake():
 
 def view_your_snakes():
     print(' ****************** Tus mascotas **************** ')
+    if not state.active_account:
+        error_msg("Debe acceder a una cuenta primero para ver sus mascota.")
+        return
+    
+    mascotas = svc.get_pets_for_users(state.active_account.id)
 
-    # TODO: Require an account
-    # TODO: Get snakes from DB, show details list
-
-    print(" -------- NOT IMPLEMENTED -------- ")
+    print("Usted tiene {} mascotas registradas".format(len(mascotas)))
+    for m in mascotas:
+        print(" * {} es un {} de la raza {}. Mide {} metros y pesa {} kilos.".format(
+            m.nombre,
+            m.especie,
+            m.raza,
+            m.tamanio,
+            m.peso
+        ))
 
 
 def book_a_cage():
