@@ -1,4 +1,5 @@
 from ast import If
+from re import S
 from colorama import Fore
 from infrastructure.switchlang import switch
 import infrastructure.state as state
@@ -111,15 +112,24 @@ def list_cages(suppress_header=False):
     
     cuchas = svc.find_cucha_for_user(state.active_account)
     print(f'Usted tiene un total de {len(cuchas)} cuchas.')
-    for c in cuchas:
-        print(f' * {c.nombre} mide: {c.metros_cuadrados}.')
+    for idx, c in enumerate(cuchas):
+        print(f' {idx + 1} {c.nombre} mide: {c.metros_cuadrados}.')
+        for b in c.reservas:
+            print('    * Reserva {}, {} días, reservado? {}'.format(
+                b.fecha_check_in,
+                (b.fecha_check_out - b.fecha_check_in).days,
+                'YES' if b.fecha_reserva is not None else 'no'
+            ))
 
 
 def update_availability():
     print(' ****************** Add available date **************** ')
+    if not state.active_account:
+        error_msg("Debe acceder a una cuenta primero para registrar una cucha.")
+        return
+    
+    list_cages(suppress_header=True)
 
-    # TODO: Require an account
-    # TODO: list cages
     # TODO: Choose cage
     # TODO: Set dates, save to DB.
 
