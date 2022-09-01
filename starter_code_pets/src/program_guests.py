@@ -122,6 +122,19 @@ def book_a_cage():
         error_msg("La fecha de check in debe ser anterior a la de check out.")
         return
     
+    print()
+    for idx, m in enumerate(mascotas):
+        print("{}. {} es un {} de la raza {}. Mide {} metros y pesa {} kilos.".format(
+            idx + 1,
+            m.nombre,
+            m.especie,
+            m.raza,
+            m.tamanio,
+            m.peso
+        ))
+    
+    masc = mascotas[int(input("Ingrese cual mascota desea registrar en la cucha (número): ")) - 1]
+    cuchas = svc.get_available_cages(check_in, check_out, masc)
 
 
 def view_bookings():

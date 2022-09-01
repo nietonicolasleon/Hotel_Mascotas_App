@@ -77,3 +77,22 @@ def get_pets_for_users(user_id: bson.ObjectId) -> List[Pet]:
     mascotas = Pet.object(id__in = dueno.pet_ids).all()
 
     return list(mascotas)
+
+
+def get_available_cages(ci: datetime.datetime, co: datetime.datetime, m: Pet) -> Cucha:
+    tam_min = m.tamanio * 1.5
+
+    query = Cucha.objects() \
+        .filter(metros_cuadrados__gte = tam_min) \
+        .filter(reservas__fecha_check_in__lte = ci) \
+        .filter(reservas__fecha_check_out__lte = co)
+    
+    cuchas = query.order_by('precio')
+
+    cuchas_finale = []
+    for c in cuchas:
+        for r in c.reservas:
+            if r.fecha_check_in <= ci and r.fecha_check_out >= co and r.guest_pet_id is None:
+                cuchas_finale.append(c)
+    
+    return cuchas_finale
