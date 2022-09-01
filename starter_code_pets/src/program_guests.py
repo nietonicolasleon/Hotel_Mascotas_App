@@ -94,7 +94,7 @@ def view_your_snakes():
 
 
 def book_a_cage():
-    print(' ****************** Book a cage **************** ')
+    print(' ****************** Registre una cucha **************** ')
     if not state.active_account:
         error_msg("Debe acceder a una cuenta primero para reservar una cucha.")
         return
@@ -136,9 +136,26 @@ def book_a_cage():
     masc = mascotas[int(input("Ingrese cual mascota desea registrar en la cucha (número): ")) - 1]
     cuchas = svc.get_available_cages(check_in, check_out, masc)
 
+    print("Hay {} cuchas disponibles para dicha fecha: ".format(len(cuchas)))
+    for idx, c in enumerate(cuchas):
+        print("{}. Nombre: {}. La cucha mide: {}, tiene alfombra {}, tiene juguetes {}.".format(
+            idx + 1,
+            c.nombre,
+            c.metros_cuadrados,
+            'si' if c.tiene_alfombra else 'no',
+            'si' if c.tiene_juguetes else 'no'
+        ))
+    
+    if not cuchas:
+        error_msg("Lo sentimos, no hay cuchas disponibles para dicha fecha.")
+        return
+    
+    cucha = cuchas[int(input("Ingrese la cucha que usted desea reservar (número): ")) - 1]
+    svc.book_cucha(state.active_account, masc, cucha, check_in, check_out)
+
 
 def view_bookings():
-    print(' ****************** Your bookings **************** ')
+    print(' ****************** Sus cuchas reservadas **************** ')
     # TODO: Require an account
     # TODO: List booking info along with snake info
 

@@ -96,3 +96,18 @@ def get_available_cages(ci: datetime.datetime, co: datetime.datetime, m: Pet) ->
                 cuchas_finale.append(c)
     
     return cuchas_finale
+
+
+def book_cucha(account, mascota, cucha, ci, co):
+    reserva = None
+
+    for r in cucha.reservas:
+        if r.fecha_check_in <= ci and r.fecha_check_out >= co and r.guest_pet_id is None:
+            reserva = r
+            break
+    
+    reserva.guest_dueno_id = account.id
+    reserva.guest_pet_id = mascota.id
+    reserva.fecha_reserva = datetime.datetime.now()
+
+    cucha.save()
