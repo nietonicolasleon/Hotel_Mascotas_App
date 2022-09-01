@@ -3,6 +3,7 @@ import program_hosts as hosts
 import infrastructure.state as state
 import services.data_service as svc
 from starter_code_pets.src.program_hosts import error_msg, success_msg
+from dateutil import parser
 
 def run():
     print(' ****************** Welcome guest **************** ')
@@ -94,13 +95,33 @@ def view_your_snakes():
 
 def book_a_cage():
     print(' ****************** Book a cage **************** ')
-    # TODO: Require an account
-    # TODO: Verify they have a snake
-    # TODO: Get dates and select snake
-    # TODO: Find cages available across date range
-    # TODO: Let user select cage to book.
+    if not state.active_account:
+        error_msg("Debe acceder a una cuenta primero para reservar una cucha.")
+        return
+    
+    mascotas = svc.get_pets_for_users(state.active_account.id)
+    if not mascotas:
+        error_msg("Usted debe [a]ñadir una mascota primero.")
+        return
+    
+    print("¡Busquemos una cucha libre para su mascota!")
+    start_text = input("Ingrese la fecha del check-in [yyyy-mm-dd]: ")
+    if not start_text:
+        error_msg("Operación cancelada")
+        return
+    
+    check_in = parser.parse(
+        start_text
+    )
 
-    print(" -------- NOT IMPLEMENTED -------- ")
+    check_out = parser.parse(
+        input("Ingrese la fecha del check-out [yyyy-mm-dd]:")
+    )
+
+    if check_in >= check_out:
+        error_msg("La fecha de check in debe ser anterior a la de check out.")
+        return
+    
 
 
 def view_bookings():
