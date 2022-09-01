@@ -90,24 +90,29 @@ def register_cage():
     metros = float(metros)
     alfombra = input('¿La cucha tiene alfombra? [y, n] ').lower().startswith('y')
     juguetes = input('¿La cucha tiene juguetes? [y, n] ').lower().startswith('y')
-    nombre = input('Dele un nombre de la cucha: ')
+    nombre = input('Dele un nombre a la cucha: ')
+    precio = float(input('Dele un precio a la cucha por noche: '))
 
-    svc.register_cage(
-        state.active_account, nombre, juguetes, alfombra, metros
+    cucha = svc.register_cage(
+        state.active_account, nombre, juguetes, alfombra, metros, precio
     )
 
     state.reload_account()
-    success_msg('Se registró una nueva cucha con la id: {cucha.id}.')
+    success_msg(f'Se registró una nueva cucha con la id: {cucha.id}.')
 
 
 def list_cages(suppress_header=False):
     if not suppress_header:
-        print(' ******************     Your cages     **************** ')
+        print(' ****************     Las Cuchas     **************** ')
 
-    # TODO: Require an account
-    # TODO: Get cages, list details
-
-    print(" -------- NOT IMPLEMENTED -------- ")
+    if not state.active_account:
+        error_msg('Debe acceder a una cuenta primero para registrar una cucha.')
+        return
+    
+    cuchas = svc.find_cucha_for_user(state.active_account)
+    print(f'Usted tiene un total de {len(cuchas)} cuchas.')
+    for c in cuchas:
+        print(f' * {c.nombre} mide: {c.metros_cuadrados}.')
 
 
 def update_availability():
