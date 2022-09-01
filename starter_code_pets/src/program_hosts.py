@@ -4,6 +4,7 @@ from colorama import Fore
 from infrastructure.switchlang import switch
 import infrastructure.state as state
 import services.data_service as svc
+from dateutil import parser
 
 
 def run():
@@ -130,10 +131,27 @@ def update_availability():
     
     list_cages(suppress_header=True)
 
-    # TODO: Choose cage
-    # TODO: Set dates, save to DB.
+    cage_number = input("Ingrese el número de la cucha a la que desea acceder: ")
+    if not cage_number.strip():
+        error_msg("Operación cancelada.")
+        print()
+        return
+    
+    cage_number = int(cage_number)
 
-    print(" -------- NOT IMPLEMENTED -------- ")
+    cuchas = svc.find_cucha_for_user(state.active_account)
+    selected_cage = cuchas[cage_number - 1]
+    
+    success_msg("Seleccionó la cucha {}".format(selected_cage.nombre))
+
+    fecha_inicio = parser.parse(
+        input("Ingrese una fecha real en el siguiente formato: [yyyy-mm-dd] (año, mes, dia)")
+    )
+
+    dias = int(input("Ingrese la cantidad de días de la reserva: "))
+
+    
+    state.reload_account()
 
 
 def view_bookings():
