@@ -150,8 +150,14 @@ def update_availability():
 
     dias = int(input("Ingrese la cantidad de días de la reserva: "))
 
-    
+    svc.add_available_date(
+        selected_cage,
+        fecha_inicio,
+        dias
+    )
     state.reload_account()
+
+    success_msg(f"Fecha añadida a la cucha {selected_cage.nombre}.")
 
 
 def view_bookings():

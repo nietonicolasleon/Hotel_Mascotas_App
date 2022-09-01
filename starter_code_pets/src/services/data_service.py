@@ -1,7 +1,9 @@
 #Este import tendrá más sentido al hacer merge en la rama principal
+import datetime
 from typing import List
 from data.duenos import Dueno
 from data.cuchas import Cucha
+from data.reservas import Reserva
 
 def create_account(nombre: str, email: str) -> Dueno:
     owner = Dueno()
@@ -41,3 +43,13 @@ def find_cucha_for_user(account: Dueno) -> List[Cucha]:
     query = Cucha.objects(id__in = account.cucha_ids)
     cuchas = list(query)
     return cuchas
+
+
+def add_available_date(cucha_elegida: Cucha, fecha_ini: datetime.datetime, dias: int):
+    reserva = Reserva()
+    reserva.fecha_check_in = fecha_ini
+    reserva.fecha_check_out = datetime.timedelta(days=dias)
+    cucha_elegida = Cucha.objects(id = cucha_elegida.id).first()
+    cucha_elegida.reservas.append(reserva)
+    cucha_elegida.save()
+    return cucha_elegida
