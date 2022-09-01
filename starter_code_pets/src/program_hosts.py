@@ -1,5 +1,3 @@
-from ast import If
-from re import S
 from colorama import Fore
 from infrastructure.switchlang import switch
 import infrastructure.state as state

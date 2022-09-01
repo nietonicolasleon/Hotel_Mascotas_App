@@ -1,9 +1,9 @@
-#Este import tendrá más sentido al hacer merge en la rama principal
 import datetime
 from typing import List
 from data.duenos import Dueno
 from data.cuchas import Cucha
 from data.reservas import Reserva
+from data.pets import Pet
 
 def create_account(nombre: str, email: str) -> Dueno:
     owner = Dueno()
@@ -53,3 +53,21 @@ def add_available_date(cucha_elegida: Cucha, fecha_ini: datetime.datetime, dias:
     cucha_elegida.reservas.append(reserva)
     cucha_elegida.save()
     return cucha_elegida
+
+
+def add_pets(account, n, e, r, t, p) -> Pet:
+    dueno = find_account_by_email(account.email)
+    mascota = Pet()
+    mascota.nombre = n
+    mascota.especie = e
+    mascota.raza = r
+    mascota.tamanio = t
+    mascota.peso = p
+
+    mascota.save()
+    dueno.pet_ids.append(mascota.id)
+    dueno.save()
+
+    return mascota
+
+

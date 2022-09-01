@@ -1,7 +1,8 @@
 from infrastructure.switchlang import switch
 import program_hosts as hosts
 import infrastructure.state as state
-
+import services.data_service as svc
+from starter_code_pets.src.program_hosts import error_msg, success_msg
 
 def run():
     print(' ****************** Welcome guest **************** ')
@@ -52,16 +53,28 @@ def show_commands():
 
 
 def add_a_snake():
-    print(' ****************** Add a snake **************** ')
-    # TODO: Require an account
-    # TODO: Get snake info from user
-    # TODO: Create the snake in the DB.
+    print(' ****************** Agregue una mascota **************** ')
+    if not state.active_account:
+        error_msg("Debe acceder a una cuenta primero para registrar una mascota.")
+        return
+    
+    nombre = input("Ingrese el nombre de su mascota: ")
+    if not nombre:
+        error_msg("Operación cancelada")
+        return
+    
+    especie = input("Ingrese la especie de su mascota: ")
+    raza = input("Ingrese la raza de su mascota: ")
+    tam = float(input("Ingrese el tamaño apróximado en metros de su mascota: "))
+    peso = float(input("Ingrese el peso apróximado en kilos de su mascota: "))
 
-    print(" -------- NOT IMPLEMENTED -------- ")
+    mascota = svc.add_pets(state.active_account, nombre, especie, raza, tam, peso)
+    state.reload_account()
 
+    success_msg("Se agregó la mascota: {}, con su id: {}".format(mascota.nombre, mascota.id))
 
 def view_your_snakes():
-    print(' ****************** Your snakes **************** ')
+    print(' ****************** Tus mascotas **************** ')
 
     # TODO: Require an account
     # TODO: Get snakes from DB, show details list
